@@ -12,9 +12,9 @@ set -e
 MY_DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "${MY_DIR}" ]]; then MY_DIR="${PWD}"; fi
 
-ARROW_ROOT="${MY_DIR}"/../../..
+AOSP_ROOT="${MY_DIR}"/../../..
 
-HELPER="${ARROW_ROOT}/vendor/arrow/build/tools/extract_utils.sh"
+HELPER="${AOSP_ROOT}/vendor/aosp/build/tools/extract_utils.sh"
 if [ ! -f "${HELPER}" ]; then
     echo "Unable to find helper script at ${HELPER}"
     exit 1
@@ -70,13 +70,13 @@ function blob_fixup() {
 
 if [ "$ONLY_DEVICE" == "false" ] && [ -s "${MY_DIR}/proprietary-files.txt" ]; then
     # Initialize the helper for common
-    setup_vendor "$DEVICE_COMMON" "$VENDOR" "$ARROW_ROOT" true "$CLEAN_VENDOR"
+    setup_vendor "$DEVICE_COMMON" "$VENDOR" "$AOSP_ROOT" true "$CLEAN_VENDOR"
     extract "${MY_DIR}/proprietary-files.txt" "$SRC" "$KANG" --section "$SECTION"
 fi
 
 if [ "$ONLY_COMMON" == "false" ] && [ -s "${MY_DIR}/../${DEVICE}/proprietary-files.txt" ]; then
     # Reinitialize the helper for device
-    setup_vendor "$DEVICE" "$VENDOR" "$ARROW_ROOT" false "$CLEAN_VENDOR"
+    setup_vendor "$DEVICE" "$VENDOR" "$AOSP_ROOT" false "$CLEAN_VENDOR"
     extract "${MY_DIR}/../${DEVICE}/proprietary-files.txt" "$SRC" "$KANG" --section "$SECTION"
 fi
 
